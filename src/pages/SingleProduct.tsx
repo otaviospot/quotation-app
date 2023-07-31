@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { MyContext } from '../MyContext';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import ReactMarkdown from 'react-markdown';
+import { useState, useEffect, useRef, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { MyContext } from "../MyContext";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ReactMarkdown from "react-markdown";
 
-import { BarLoader } from 'react-spinners';
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { BarLoader } from "react-spinners";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-import { apiGetSingleProduct } from '../services/apiService';
-import CartSection from '../components/CartSection';
+import { apiGetSingleProduct } from "../services/apiService";
+import CartSection from "../components/CartSection";
+
+/* Interface for single Product object */
 
 interface ISingleProduct {
   data: any;
@@ -40,8 +42,8 @@ export default function SingleProduct() {
   const [singleProduct, setSingleProduct] = useState<ISingleProduct>({
     data: {},
     attributes: {},
-    descritpion: '',
-    name: '',
+    descritpion: "",
+    name: "",
     price: 0,
     promotionalPrice: 0,
     productGallery: {
@@ -49,27 +51,31 @@ export default function SingleProduct() {
         attributes: {
           formats: {
             large: {
-              url: '',
+              url: "",
             },
           },
         },
       },
     },
-    id: '',
-    sku: '',
+    id: "",
+    sku: "",
     stock: 0,
     showPrice: true,
   });
+  /* Get productId from URL */
   const { productId } = useParams();
 
+  /* Context */
   const { handleAddToCart, realBr, loading, setLoading } =
     useContext(MyContext);
 
+  /* State for loading */
   const floatingCart: boolean = true;
   useEffect(() => {
     setLoading(true);
   }, [setLoading]);
 
+  /* Fetch Back End Single Product Data */
   useEffect(() => {
     async function getSingleProduct() {
       try {
@@ -87,6 +93,7 @@ export default function SingleProduct() {
     getSingleProduct();
   }, [loading, productId, setLoading]);
 
+  /* Slick Carousel Settings */
   const slickSettings = {
     dots: true,
     arrows: false,
@@ -96,6 +103,7 @@ export default function SingleProduct() {
     slidesToScroll: 1,
   };
 
+  /* Slick Carousel Handlers */
   const handleNextSlide = () => {
     sliderRef.current.slickNext();
   };
