@@ -11,6 +11,7 @@ import {
   apiGetAllProducts,
   apiGetAllCategories,
   apiFilterProductsByCategory,
+  apiCreateQuotation,
 } from "./services/apiService";
 
 import Footer from "./components/Footer";
@@ -18,6 +19,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import { MyContext } from "./MyContext";
 import SingleProduct from "./pages/SingleProduct";
+import Cart from "./pages/Cart";
 
 function App() {
   const [allProducts, setAllProducts] = useState<any>({});
@@ -108,6 +110,26 @@ function App() {
     }
   }
 
+  async function handleCreateQuotation(
+    clientName: string,
+    email: string,
+    quotationCartProds: any
+  ) {
+    try {
+      const dataQuotation = {
+        data: {
+          nome: clientName,
+          email: email,
+          cotacao_info: quotationCartProds,
+        },
+      };
+
+      await apiCreateQuotation(dataQuotation);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   /* Function for showing all products when filtered */
 
   async function handleShowAllProducts() {
@@ -173,6 +195,7 @@ function App() {
           handleAddToCart,
           handleRemoveFromCart,
           handleFilterProductsByCategories,
+          handleCreateQuotation,
           clearCart,
           handleOpenCart,
           setOpenCart,
@@ -187,6 +210,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/products/:productId" element={<SingleProduct />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/" element={<Home />} />
           </Routes>
           <Footer />

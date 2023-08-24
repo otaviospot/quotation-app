@@ -1,31 +1,27 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import CartItem from "./CartItem";
+import { useContext, useState } from "react";
+import CartItem from "../components/CartItem";
 import { MyContext } from "../MyContext";
-import { AiOutlineClose } from "react-icons/ai";
 
-export default function CartSection({
-  floatingCart = false,
-}: {
-  floatingCart?: boolean;
-}) {
-  const {
-    cartProds,
-    handleRemoveFromCart,
-    clearCart,
-    openCart,
-    handleOpenCart,
-  } = useContext(MyContext);
+export default function Cart() {
+  const [clientName, setClientName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const { cartProds, handleRemoveFromCart, clearCart, handleCreateQuotation } =
+    useContext(MyContext);
+
   const qtdProductsText = cartProds.length > 1 ? "produtos" : "produto";
-  const openCartCss = openCart ? "translate-x-0" : "translate-x-full";
-  const floatingCss = floatingCart
-    ? `fixed right-0 top-0 transition-transform z-20 h-full ${openCartCss}`
-    : "h-100v-h fixed right-0 ";
+
+  const stringCartProds = cartProds.map((prod: any, i: any) => {
+    return `Produto${i}: ${prod.attributes?.name} <br>`;
+  });
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    handleCreateQuotation(clientName, email, stringCartProds);
+  };
 
   return (
-    <div
-      className={`flex flex-0-auto flex-col bg-white p-5 w-80 border-l border-solid border-gray-400 ${floatingCss}`}
-    >
+    <div className={`flex flex-0-auto flex-col bg-white p-5 w-full`}>
       <h2 className="text-xl font-bold text-red-700 mb-3 flex-grow-0">
         Carrinho{" "}
         <span className="text-sm">
@@ -33,14 +29,8 @@ export default function CartSection({
             " | " + cartProds.length + " " + qtdProductsText}
         </span>
       </h2>
-      {floatingCart && (
-        <button onClick={handleOpenCart} className="absolute top-3 right-3">
-          <AiOutlineClose className="w-5 h-5" />
-        </button>
-      )}
-
       {cartProds.length > 0 ? (
-        <>
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 flex-grow">
             {cartProds.map((cartItem: any) => (
               <CartItem
@@ -55,14 +45,32 @@ export default function CartSection({
               />
             ))}
           </div>
+          <div className="formCart flex flex-col">
+            <label htmlFor="clientName">Nome do Cliente</label>
+            <input
+              type="text"
+              name="clientName"
+              id="clientName"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+            />
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
           <div className="cartBtnSection flex flex-col flex-grow-0">
-            <Link
+            <button
+              type="submit"
               className="rounded-md bg-red-500 text-white p-3 mt-2 hover:bg-red-900"
-              to={`cart`}
             >
               Enviar Pedido de Cotação
-            </Link>
+            </button>
             <button
               onClick={clearCart}
               className="rounded-md bg-gray-800 text-white p-3 mt-2 hover:bg-gray-600"
@@ -70,7 +78,7 @@ export default function CartSection({
               Limpar carrinho
             </button>
           </div>
-        </>
+        </form>
       ) : (
         <div className="flex flex-col flex-grow-0">
           <span className="text-gray-600">Seu carrinho está vazio</span>

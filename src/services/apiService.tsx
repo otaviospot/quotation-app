@@ -1,7 +1,7 @@
-import { read } from './httpService';
+import { read, create } from "./httpService";
 
 export async function apiGetAllProducts() {
-  const allProducts = await read('/products?populate=*');
+  const allProducts = await read("/products?populate=*");
   return allProducts;
 }
 
@@ -19,6 +19,11 @@ export async function apiGetSingleProduct(productId: any) {
 }
 
 export async function apiGetAllCategories() {
-  const allCategories = await read('/categories?populate=*');
+  const allCategories = await read("/categories?populate=*");
   return allCategories;
+}
+
+export async function apiCreateQuotation(dataQuotation: any) {
+  const newQuotation = await create("/cotacoes", dataQuotation);
+  return newQuotation;
 }
