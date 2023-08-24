@@ -58,7 +58,7 @@ export default function CartSection({
 
           <div className="cartBtnSection flex flex-col flex-grow-0">
             <Link
-              className="rounded-md bg-red-500 text-white p-3 mt-2 hover:bg-red-900"
+              className="flex justify-center items-center rounded-md bg-red-500 text-white p-3 mt-2 hover:bg-red-900"
               to={`cart`}
             >
               Enviar Pedido de Cotação

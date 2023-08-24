@@ -46,6 +46,18 @@ function App() {
     theme: "light",
   };
 
+  const toastOptionsQuotationSuccess: object = {
+    position: "top-right",
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    transition: Slide,
+    progress: undefined,
+    theme: "light",
+  };
+
   /* Fetch Back End Products Data */
 
   useEffect(() => {
@@ -113,7 +125,8 @@ function App() {
   const handleCreateQuotation = async (
     clientName: string,
     email: string,
-    stringCartProds: string
+    stringCartProds: string,
+    onSuccess: () => void
   ) => {
     const dataQuotation = {
       nome: clientName,
@@ -123,7 +136,13 @@ function App() {
 
     try {
       const newQuotation = await apiCreateQuotation(dataQuotation);
-      // Trate a resposta conforme necessário
+      console.log("Cotação criada com sucesso:", newQuotation);
+      toast.success(
+        "Cotação enviada com sucesso! Aguarde o contato de um de nossos vendedores",
+        toastOptionsQuotationSuccess
+      );
+      clearCart(false);
+      onSuccess();
     } catch (error: any) {
       console.error(
         "Erro ao criar cotação:",
@@ -171,10 +190,12 @@ function App() {
 
   /* Function for clearing cart */
 
-  const clearCart = () => {
+  const clearCart = (hasToast: boolean = true) => {
     localStorage.clear();
     setCartProds([]);
-    toast.success("Carrinho limpo com sucesso", toastOptions);
+    if (hasToast) {
+      toast.success("Carrinho limpo com sucesso", toastOptions);
+    }
   };
 
   /* Function for opening cart */
