@@ -20,7 +20,7 @@ export default function Cart() {
     const dataQuotation = {
       clientName,
       email,
-      stringCartProds: stringCartProds.join(" "),
+      stringCartProds: "teste",
     };
     handleCreateQuotation(dataQuotation);
   };
