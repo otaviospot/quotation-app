@@ -116,9 +116,9 @@ function App() {
     stringCartProds: string
   ) => {
     const dataQuotation = {
-      nome: clientName,
+      clientName,
       email,
-      cotacao_info: "teste",
+      stringCartProds,
     };
 
     try {

@@ -17,7 +17,12 @@ export default function Cart() {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    handleCreateQuotation(clientName, email, stringCartProds);
+    const dataQuotation = {
+      clientName,
+      email,
+      stringCartProds: stringCartProds.join(" "),
+    };
+    handleCreateQuotation(dataQuotation);
   };
 
   return (
