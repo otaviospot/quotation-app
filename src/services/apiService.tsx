@@ -24,10 +24,11 @@ export async function apiGetAllCategories() {
 }
 
 export async function apiCreateQuotation(dataQuotation: any) {
+  // A estrutura correta do payload com o objeto "data"
   const payload = {
     data: {
-      nome: dataQuotation.clientName,
-      cotacao_info: dataQuotation.stringCartProds,
+      nome: dataQuotation.nome,
+      cotacao_info: dataQuotation.cotacao_info,
       email: dataQuotation.email,
     },
   };

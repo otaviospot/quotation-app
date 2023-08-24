@@ -18,9 +18,9 @@ export default function Cart() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const dataQuotation = {
-      clientName,
+      nome: clientName,
       email,
-      stringCartProds: "teste",
+      cotacao_info: "teste", // Ajuste aqui para enviar a string corretamente
     };
     handleCreateQuotation(dataQuotation);
   };
