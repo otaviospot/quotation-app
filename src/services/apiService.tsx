@@ -24,6 +24,13 @@ export async function apiGetAllCategories() {
 }
 
 export async function apiCreateQuotation(dataQuotation: any) {
-  const newQuotation = await create("/cotacoes", dataQuotation);
+  const payload = {
+    data: {
+      nome: dataQuotation.clientName,
+      cotacao_info: dataQuotation.stringCartProds,
+      email: dataQuotation.email,
+    },
+  };
+  const newQuotation = await create("/cotacoes", payload);
   return newQuotation;
 }

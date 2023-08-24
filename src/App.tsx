@@ -110,25 +110,27 @@ function App() {
     }
   }
 
-  async function handleCreateQuotation(
+  const handleCreateQuotation = async (
     clientName: string,
     email: string,
-    quotationCartProds: any
-  ) {
-    try {
-      const dataQuotation = {
-        data: {
-          nome: clientName,
-          email: email,
-          cotacao_info: quotationCartProds,
-        },
-      };
+    stringCartProds: string
+  ) => {
+    const dataQuotation = {
+      nome: clientName,
+      email,
+      cotacao_info: "teste",
+    };
 
-      await apiCreateQuotation(dataQuotation);
-    } catch (error) {
-      console.log(error);
+    try {
+      const newQuotation = await apiCreateQuotation(dataQuotation);
+      // Trate a resposta conforme necessário
+    } catch (error: any) {
+      console.error(
+        "Erro ao criar cotação:",
+        error.response?.data || error.message
+      );
     }
-  }
+  };
 
   /* Function for showing all products when filtered */
 
